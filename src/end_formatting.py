@@ -110,6 +110,7 @@ def write_field_data(data, display):
     field_data = analytics.get_field_data(data)
     responses = analytics.get_responses(data)
     fields = list(field_data.keys())
+    fields = analytics.field_sort(fields)
     for field in fields:
         if field != 'total':
             if 'admin' in field:

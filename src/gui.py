@@ -3,7 +3,7 @@ from tkinter import filedialog
 from polling_data import get_data
 import analytics
 from write_data import *
-import end_formating
+import end_formatting
 
 
 #BROWSE FILE BOX
@@ -19,6 +19,10 @@ def open_file_dialog():
     if file_path:
         # Display and enable the execute button once a file path is selected
         execute_button.config(text=f"Execute", state=tk.NORMAL)
+        # data = get_data(file_path)
+        # for person in data:
+        #     person.dump()
+        #     print()
 
 # Create the main Tkinter window
 win = tk.Tk()
@@ -61,11 +65,11 @@ def submit(data):
     #adds the basic Overall|Response1|Response2 etc
     data_display = str(analytics.default_constructor(data))
 
-    data_display = end_formating.write_all_reg_data(data,data_display)
+    data_display = end_formatting.write_all_reg_data(data,data_display)
 
     #PARTY SPECIFIC DATA FROM THIS POINT ON
 
-    data_display = end_formating.write_all_party_data(data,data_display)
+    data_display = end_formatting.write_all_party_data(data,data_display)
 
     #displays the data that will eventually be written to the file (TESTING)
     #print(data_display)

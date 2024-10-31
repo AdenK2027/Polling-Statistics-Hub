@@ -1,0 +1,19 @@
+Hello, here is a table of contents for future navigational purposes
+
+analytics.py --> holds all of the code that parses data held in the Individual class and counts it
+    all up before turning it to percentages
+
+end_formatting.py --> formats the data for each section into human readable data and adds it to
+    a string that is held in gui.py
+
+gui.py --> creates the gui that allows you to select a file as well as stores the string to be
+    written by write_data.py, and runs both end_formatting.py abd write_data.py (serves as Main)
+
+individual.py --> class created to store each line of data from the raw polling data (stores each
+    individual as their email, party, response, etc)
+
+polling_data --> grabs the raw polling data and converts it into a list of Individual class items
+    (IF DATA IS BEING READ INCORRECTLY CHECK HERE)
+
+write_data --> takes the string created by end_formatting.py and formats/writes it to your
+    downloads folder

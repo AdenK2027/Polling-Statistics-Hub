@@ -259,6 +259,23 @@ def count_responses_by_age(data):
         results[cat][responses.index(person.response)] += 1
     return results
 
+def field_sort(list):
+    new_list = []
+    if 'senior policy' in list:
+        new_list.append('senior policy')
+    if 'junior policy' in list:
+        new_list.append('junior policy')
+    if 'policy' in list:
+        new_list.append('policy')
+    list.sort()
+    for item in list:
+        if item not in new_list:
+            new_list.append(item)
+    if 'unknown' in new_list:
+        new_list.pop(new_list.index('unknown'))
+        new_list.append('unknown')
+    return new_list
+
 
 #gets responses based on field (admin, policy, etc)
 def get_field_data(data):
@@ -276,10 +293,22 @@ def get_field_data(data):
         for response in responses:
             result[field][response] = 0
 
+    #if there is no policy field (instead there is sen. policy and jun. policy)
+    try:
+        result['policy'][responses[0]] += 1
+    except KeyError as e:
+        result['policy'] = {}
+        for response in responses:
+            result['policy'][response] = 0
+        result['policy']['total'] = 0
+
     for person in data:
         result[person.field][person.response] += 1
         result[person.field]['total'] += 1
         result['total'] += 1
+        if 'policy' in person.field:
+            result['policy'][person.response] += 1
+            result['policy']['total'] += 1
 
     return result
 

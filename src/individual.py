@@ -3,7 +3,7 @@ class Individual():
                  party='example party', affiliation='U.S Blank',
                  office='Rep. FName LName',title='example_title',
                  gender='NA',field='field',storage=[],
-                 response=''):
+                 response='',excess=[]):
         if email == '':
             email = 'example@gmail.com'
         self.email=email
@@ -32,6 +32,9 @@ class Individual():
         self.field = field
         self.response = response
         self.storage = storage
+        self.excess = excess
+        if self.birthdate[0] == 0 and len(self.excess) > 0:
+            self.excess.pop()
 
     def __str__(self):
         return f'{self.email}({self.party}), {self.job_title} for {self.office} said {self.response}'
@@ -39,7 +42,8 @@ class Individual():
     def dump(self):
         print(f"Email:{self.email}, Birthday:{self.birthdate}, Party:{self.party}\n"
               f"Affil:{self.affiliation}, Office:{self.office}, Title:{self.job_title}\n"
-              f"Gender:{self.gender}, Field:{self.field}, Response:{self.response}\n")
+              f"Gender:{self.gender}, Field:{self.field}, Response:{self.response}\n"
+              f"Excess:{self.excess}")
 
     def get_storage(self):
         return self.storage
