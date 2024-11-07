@@ -33,8 +33,6 @@ class Individual():
         self.response = response
         self.storage = storage
         self.excess = excess
-        if self.birthdate[0] == 0 and len(self.excess) > 0:
-            self.excess.pop()
 
     def __str__(self):
         return f'{self.email}({self.party}), {self.job_title} for {self.office} said {self.response}'

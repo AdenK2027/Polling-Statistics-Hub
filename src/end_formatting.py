@@ -209,10 +209,11 @@ def write_gender_party_data(data,display):
 
 def write_field_party_data(data, display):
     listed_fields = analytics.get_fields(data)
+    listed_fields = analytics.field_sort(listed_fields)
     #listed_fields = ['Policy', 'Communicators']
     field_data = analytics.get_field_party_data(data)
     responses = analytics.get_responses(data)
-    for field in list(field_data.keys()):
+    for field in listed_fields:
         if field != 'total':
             for party in list(field_data[field].keys()):
                 if field in listed_fields:
@@ -247,6 +248,7 @@ def write_field_party_data(data, display):
 def write_house0senate_party_data(data,display):
     affil_data = analytics.get_house0senate_party_data(data)
     responses = analytics.get_responses(data)
+    print(affil_data)
     for affil in list(affil_data.keys()):
         if affil != 'total' and affil != '':
             for party in list(affil_data[affil].keys()):

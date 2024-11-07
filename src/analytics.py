@@ -306,7 +306,7 @@ def get_field_data(data):
         result[person.field][person.response] += 1
         result[person.field]['total'] += 1
         result['total'] += 1
-        if 'policy' in person.field:
+        if 'policy' in person.field and person.field != 'policy':
             result['policy'][person.response] += 1
             result['policy']['total'] += 1
 
@@ -403,6 +403,7 @@ def get_field_party_data(data):
             for response in responses:                                 #
                 result[field][party][response] = 0                     #
     #sets the baseline of each response for each party within each field
+
 
 
     for person in data:
