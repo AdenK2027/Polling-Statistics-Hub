@@ -53,7 +53,7 @@ def write_house0senate_data(data, display):
     if '' not in affiliations:
         affiliations.append('')
     for affil in affiliations:
-        if affil != 'total':
+        if affil != 'total' and affil != '':
             if 'senate' in affil.lower():
                 display += 'Senate|'
             elif 'house' in affil.lower():
@@ -259,9 +259,10 @@ def write_house0senate_party_data(data,display):
                 if 'house' in affil.lower():
                     display += 'House|'
                 elif 'senate' in affil.lower():
+                    print(affil)
                     display += 'Senate|'
                 else:
-                    display += affil + '|'
+                    display += 'Other Departments|'
 
                 display += str(affil_data[affil][party]['total']) + '|'
 

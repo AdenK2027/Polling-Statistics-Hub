@@ -34,6 +34,10 @@ def get_data(file_name):
                 birthdate = line[1]
                 party = line[2].lower()
                 affiliation = line[3].lower()
+                if ('house of representatives' in affiliation or affiliation == 'house') and affiliation == 'us example':
+                    affiliation = 'house of rep'
+                elif ('senate' == affiliation or ('senate' in affiliation and 'u.s' in affiliation)):
+                    affiliation = 'u.s senate'
                 office = line[4].lower()
                 job_title = line[5].lower()
                 field = line[-4].lower()

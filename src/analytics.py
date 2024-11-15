@@ -353,7 +353,7 @@ def get_gender_party_data(data):
     total = get_responses(data)[2]
     responses = get_responses(data)[0]
     result = {'total': total}
-    genders = ['m', 'f', 'unknown']
+    genders = ['m', 'f', '']
     parties = ['dem', 'rep']
 
     # adds field entries to the results
