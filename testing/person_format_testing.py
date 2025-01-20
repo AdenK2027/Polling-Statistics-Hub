@@ -1,5 +1,5 @@
 import os
-from src.polling_data import question, get_data
+from polling_data import question, get_data
 
 
 file_path = os.path.join("files","Testing-Data.csv")

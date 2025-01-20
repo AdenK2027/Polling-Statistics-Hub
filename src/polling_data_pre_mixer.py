@@ -1,4 +1,4 @@
-from src.individual import Individual
+from individual import Individual
 #takes csv data from polls and reads it as individuals with characteristics seen in Individual.py
 question = ''
 def get_question():

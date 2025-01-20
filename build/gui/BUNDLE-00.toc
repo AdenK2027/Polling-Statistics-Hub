@@ -1,0 +1,3 @@
+([('gui',
+   '/Users/adenkieffaber/Polling-Statistics-Hub/dist/gui',
+   'EXECUTABLE')],)
