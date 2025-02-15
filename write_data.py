@@ -116,7 +116,7 @@ def writeFormattedData(filePath,data):
                              'Question', 'Answer'])
             for line in formattedLines:
                 writer.writerow(line.split('|'))
-        print(f"Successfully Written Formatting to Downloads as {filePath}")
+        print(f"Successfully Written Formatting to Downloads as {filePath[:-4]}-formatted.csv")
     except FileNotFoundError as e:
         print('File not found', e)
 

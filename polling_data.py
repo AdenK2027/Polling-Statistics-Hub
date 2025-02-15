@@ -92,7 +92,11 @@ def fixLines(lines):
     fixedLines = []
     for line in lines: #line = 'email,name,date,etc'
         fixedLine = [] #['email', 'name', 'date']
-        for characteristic in line.split(','): #line = ['email', 'name', 'date']
+        line = line.split(',')
+        if len(line) > 0 and len(line) < 2:
+            line = line[0]
+            line = line.split('|')
+        for characteristic in line: #line = ['email', 'name', 'date']
             fixedLine.append(fixString(characteristic)) #characteristic = 'email'
         fixedLines.append(fixedLine) #fixedLines = [['email', 'name'], ['email2', 'name2']]
 
@@ -146,6 +150,8 @@ def setQuestion(lines):
     i = len(lines) - 1 #starts at the bottom poll entry
     while question == '' and i >= 0: #until the question is determined or there are no more entries
         individual = lines[i] #each line is split into characteristics
+        if len(individual) < 2 and len(individual) > 0:
+            individual = individual[0].split('|')
         for characteristic in individual:
 
             #if the characteristic is a question
@@ -195,8 +201,6 @@ def get_data(file_name, ignoreFloats = True):
 
             #Removes anything that isn't a character or number
             for item in line.copy():
-                if 'aleysha_proctor@smith.senate.gov' in line:
-                    pass
                 if len(item) < 2:
                     if not item.isalnum():
                         line.remove(item)
@@ -222,6 +226,8 @@ def get_data(file_name, ignoreFloats = True):
                     response = fixString(response)
                 except IndexError as e:
                     break
+                if response.lower() == 'answer':
+                    continue
                 email = 'example@gmail.com'
                 birthdate = '00/00/0000'
                 party = ''
