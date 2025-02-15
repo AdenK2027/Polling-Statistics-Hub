@@ -39,6 +39,7 @@ def command_runner():
 
     #get_data is imported from polling_data and returns a list of Individuals (class)
     data = get_data(file_path)
+    writeFormattedData(file_path, data)
 
     #runs command below with list of Individuals
     submit(data)

@@ -42,11 +42,27 @@ def set_file_path(button):
     # Run the Tkinter event loop
     root.mainloop()
 
+def clearDirectory(path):
+    # Check if the directory exists
+    if os.path.exists(path):
+        # Iterate through all files and subdirectories in the directory
+        for item in os.listdir(path):
+            item_path = os.path.join(path, item)
+            # Check if it's a file and remove it
+            if os.path.isfile(item_path) or os.path.islink(item_path):
+                os.unlink(item_path)  # Removes the file or symlink
+    else:
+        print(f"Directory '{path}' does not exist.")
+
 def writeData(data):
     try:
         # "Desktop","Poll-Results.csv"
         #"polling-statistics","files","Poll-Results.csv"
         downloads_folder = os.path.expanduser("~/Downloads")
+
+        #REMOVE BEFORE SENDING TO NICK!!!
+        #downloads_folder = os.path.join(downloads_folder, 'csv-data')
+
         with open(os.path.join(downloads_folder,f"{get_question()}-Polling Results.csv"), 'wt') as fin:
             writer = csv.writer(fin, delimiter='|')
             list_data = stringToCSVList(data)
@@ -56,6 +72,53 @@ def writeData(data):
     except FileNotFoundError as e:
         print('File not found', e)
 
+def CustomCapitalization(line):
+    result = ''
+    count = 0
+    for i in range(len(line)-1):
+        if (i == 0):
+            result += line[0].upper()
+        elif (line[i-1] == '|' or line[i-1] == ' ') or (line[i-1] == '.' and line[i+1] == ' ') and count < 8:
+            result += line[i].upper()
+        else:
+            result += line[i]
+        if line[i] == '|':
+            count += 1
+    result += line[len(line)-1]
+    return result
+
+def writeFormattedData(filePath,data):
+    try:
+        # "Desktop","Poll-Results.csv"
+        #"polling-statistics","files","Poll-Results.csv"
+        downloads_folder = os.path.expanduser("~/Downloads")
+
+        #REMOVE BEFORE SENDING TO NICK!!!
+        #downloads_folder = os.path.join(downloads_folder, 'csv-data')
+
+        with open(os.path.join(filePath[:-4]) + '-formatted.csv', 'wt') as fin:
+            writer = csv.writer(fin, delimiter='|')
+            formattedLines = []
+            for person in data:
+                birthdate = str(person.birthdate)[1:-1].split(',')
+                for i in range(len(birthdate)):
+                    if birthdate[i][0] == " ":
+                        birthdate[i] = birthdate[i][1:]
+                birthdate = "/".join(birthdate)
+                email = person.email
+                if 'example' in email:
+                    email = "No Email"
+                finalLine = (f"{email}|{birthdate}|{person.party}|{person.affiliation}|{person.office}"
+                      f"|{person.gender}|{person.field}|{get_question()}|{person.response}")
+                finalLine = CustomCapitalization(finalLine)
+                formattedLines.append(finalLine)
+            writer.writerow(['Email', 'Birthdate', 'Party', 'Affiliation', 'Office', 'Gender', 'Field',
+                             'Question', 'Answer'])
+            for line in formattedLines:
+                writer.writerow(line.split('|'))
+        print(f"Successfully Written Formatting to Downloads as {filePath}")
+    except FileNotFoundError as e:
+        print('File not found', e)
 
 def stringToCSVList(string):
     temp_str = ''

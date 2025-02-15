@@ -1,5 +1,11 @@
 from datetime import *
 
+def RoundTo100(num): #returns the rounded number and the difference in a tuple
+    if num < 100 or num > 100:
+        if num > 99 or num < 101:
+            return 100, f"{100-num:.2f}"
+    return num, 0
+
 def default_constructor(data):
     base_percentages = get_answer_percentages(data)
     data_display = 'Category|Overall|'
@@ -11,21 +17,29 @@ def default_constructor(data):
         response = response[:response.index(':')]
         data_display += (response + ' Percentage|')
     data_display += 'Date|\n'
+
+
     data_display += 'Overall|'
     total0counts = get_overall_response_count(data)
-    if total0counts[0] == 59:
-        pass
     data_display += str(total0counts[0]) + '|'
     for item in total0counts[1]:
         data_display += str(item) + '|'
     total_percentage = 0
     for response in base_percentages:
         total_percentage += float(response[response.index(':')+1:len(response)-1])
+    total_percentage, added = RoundTo100(total_percentage)
     total_percentage = f'{total_percentage:.2f}'
     data_display += str(total_percentage) + '%|'
+    max = -1
     for response in base_percentages:
-        response = response[response.index(':')+1:]
-        data_display += response + '|'
+        response = float(response[response.index(':')+1:-1]) #percentage without the %
+        if max < response:
+            max = response
+    for response in base_percentages:
+        response = float(response[response.index(':')+1:-1])
+        if float(response) == max:
+            response += float(added)
+        data_display += f"{response:.2f}%|"
     data_display += f'{data[0].date}|\n'
     return data_display
 

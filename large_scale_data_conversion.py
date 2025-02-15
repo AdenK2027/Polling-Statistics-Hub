@@ -34,6 +34,8 @@ def submit(data):
     writeData(data_display)
 downloads = os.path.expanduser('Downloads')
 retrievalPath = os.path.join(downloads,'raw_pulse_data')
+outputPath = os.path.join(downloads, 'csv-data')
+clearDirectory(outputPath)
 for filename in os.listdir(retrievalPath):
     if filename != '.DS_Store':
         command_runner(os.path.join(retrievalPath,filename))

@@ -176,7 +176,7 @@ def write_gender_party_data(data,display):
     genders = list(split_gender_data.keys())
     for gender in genders:
         for party in parties:
-            if gender != 'total' and gender != '':
+            if gender != 'total':
                 string = ''
                 if party == 'rep':
                     string += 'GOP '
@@ -187,7 +187,7 @@ def write_gender_party_data(data,display):
                 elif gender == 'f':
                     string += 'Women|'
                 else:
-                    continue
+                    string += "Unknown|"
                 display += string
                 display += str(split_gender_data[gender][party]['total']) + '|'
 
