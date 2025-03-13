@@ -84,6 +84,8 @@ def setDate(file_name, year):
             dateDict['month'] = '13' #sets to 13, will be read as N/A later             #
     #####################################################################################
 
+    if -1 in list(dateDict.values()):
+        print("WEIRDO DATE")
     return (dateDict['month'], dateDict['year'])
 
 def fixString(original): #removes and "'s as well as leading/following spaces
