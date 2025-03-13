@@ -61,7 +61,7 @@ def writeData(data):
         downloads_folder = os.path.expanduser("~/Downloads")
 
         #REMOVE BEFORE SENDING TO NICK!!!
-        #downloads_folder = os.path.join(downloads_folder, 'csv-data')
+        downloads_folder = os.path.join(downloads_folder, 'csv-data')
 
         with open(os.path.join(downloads_folder,f"{get_question()}-Polling Results.csv"), 'wt') as fin:
             writer = csv.writer(fin, delimiter='|')

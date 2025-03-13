@@ -97,8 +97,10 @@ def fixLines(lines):
             line = line[0]
             line = line.split('|')
         for characteristic in line: #line = ['email', 'name', 'date']
-            fixedLine.append(fixString(characteristic)) #characteristic = 'email'
-        fixedLines.append(fixedLine) #fixedLines = [['email', 'name'], ['email2', 'name2']]
+            if characteristic != "" and characteristic != "\n":
+                fixedLine.append(fixString(characteristic)) #characteristic = 'email'
+        if len(fixedLine) >= 1:
+            fixedLines.append(fixedLine) #fixedLines = [['email', 'name'], ['email2', 'name2']]
 
     # removes all newlines and empty slots
     for line in fixedLines.copy():
