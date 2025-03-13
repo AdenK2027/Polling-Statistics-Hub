@@ -6,9 +6,15 @@ question = ''
 def get_question():
     return question
 
-def getDate(file_name):
+def setDate(file_name, year):
     # creates a blank date that grabs only numbers and separators from the filename
     date = ''  #
+    i = len(file_name)-1
+    while i >= 0:
+        if file_name[i] == '/':
+            break
+        i -= 1
+    file_name = file_name[i:]
     for i in range(len(file_name)):
         char = file_name[i]
         try:  #
@@ -44,6 +50,8 @@ def getDate(file_name):
 
     dateDict = {'month':-1, 'year':-1} #this will be used for the return
 
+    if year in date:
+        date.remove(year)
     # if there are three elements in the list (month, date, year) #
     if len(date) == 3:                                            #
                                                                   #
@@ -55,10 +63,13 @@ def getDate(file_name):
     #else if there are four elements, then it is probably a range (month, day, month, day)
     elif len(date) == 4:                                                                #
                                                                                         #
-        #sets time standards to get current year                                        #
-        seconds_since_epoch = time.time()                                               #
-        datetime_object = datetime.datetime.fromtimestamp(seconds_since_epoch)          #
-        dateDict['year'] = str(datetime_object.year - 1)                                #
+        if year == '':
+            #sets time standards to get current year                                        #
+            seconds_since_epoch = time.time()                                               #
+            datetime_object = datetime.datetime.fromtimestamp(seconds_since_epoch)          #
+            dateDict['year'] = str(datetime_object.year - 1)                                #
+        else:
+            dateDict['year'] = year
                                                                                         #
         #if the two months are the same, just use the first month and assume the current year
         if date[0] == date[2]:                                                          #
@@ -169,7 +180,7 @@ def setQuestion(lines):
         i -= 1
     return question
 
-def get_data(file_name, ignoreFloats = True):
+def get_data(file_name, ignoreFloats = True, currentYear = ''):
     global question
     with open(file_name, 'rt') as fout:
 
@@ -226,6 +237,7 @@ def get_data(file_name, ignoreFloats = True):
                 try:
                     response = line[-1].strip('\n')
                     response = fixString(response)
+                    response = response.lower()
                 except IndexError as e:
                     break
                 if response.lower() == 'answer':
@@ -292,7 +304,7 @@ def get_data(file_name, ignoreFloats = True):
                     temp_individual = Individual(email=email,birthday=birthdate,party=party,affiliation=affiliation,
                                              office=office,title=job_title,gender=gender,field=field,
                                              response=response,excess=excess)
-                    date = getDate(file_name)
+                    date = setDate(file_name, currentYear)
                     if date != -1:
                         temp_individual.setDate(date)
                     else:

@@ -1,4 +1,4 @@
-import os, csv, tkinter as tk
+import os, csv, tkinter as tk, shutil
 from polling_data import get_question
 from tkinter import filedialog
 
@@ -51,24 +51,27 @@ def clearDirectory(path):
             # Check if it's a file and remove it
             if os.path.isfile(item_path) or os.path.islink(item_path):
                 os.unlink(item_path)  # Removes the file or symlink
+            elif os.path.isdir(item_path):
+                shutil.rmtree(item_path)  # Removes the directory and its contents
     else:
         print(f"Directory '{path}' does not exist.")
 
-def writeData(data):
+def writeData(data, year = ''):
     try:
         # "Desktop","Poll-Results.csv"
         #"polling-statistics","files","Poll-Results.csv"
         downloads_folder = os.path.expanduser("~/Downloads")
 
-        #REMOVE BEFORE SENDING TO NICK!!!
-        downloads_folder = os.path.join(downloads_folder, 'csv-data')
+        if year != '':
+            downloads_folder = os.path.join(downloads_folder, 'csv-data', year)
+            os.makedirs(downloads_folder, exist_ok=True)
 
         with open(os.path.join(downloads_folder,f"{get_question()}-Polling Results.csv"), 'wt') as fin:
             writer = csv.writer(fin, delimiter='|')
             list_data = stringToCSVList(data)
             writer.writerows(list_data)
             #fin.writelines([data])
-            print(f"Successfully Written Data to Downloads as {get_question()}-Polling Results.csv")
+            print(f"Successfully Written Data to {downloads_folder} as {get_question()}-Polling Results.csv")
     except FileNotFoundError as e:
         print('File not found', e)
 
@@ -96,7 +99,7 @@ def writeFormattedData(filePath,data):
         #REMOVE BEFORE SENDING TO NICK!!!
         #downloads_folder = os.path.join(downloads_folder, 'csv-data')
 
-        with open(os.path.join(filePath[:-4]) + '-formatted.csv', 'wt') as fin:
+        with open(os.path.join(downloads_folder,f"{get_question()}-formatted.csv"), 'wt') as fin:
             writer = csv.writer(fin, delimiter='|')
             formattedLines = []
             for person in data:
